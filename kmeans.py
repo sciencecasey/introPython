@@ -17,7 +17,7 @@ repeat the classification based on proximity to the new centroid
 continue this process until no points change clusters (so no new mean is calculated).
 This is the convergence/stable state -- end result (figure (f))
 """
-import traceback
+#import traceback
 import pdb
 
 with open("/Users/CaseyJayne/miniconda3/envs/introPython/kmeans.txt") as file:
@@ -100,19 +100,12 @@ while kmean:
     orig_len2 = len(groups[2])
     orig_len3 = len(groups[3])
     for index in range(4):
-        try:
-            x = 0
-            y = 0
-            for item in groups[index]:
-                x += item[0]
-                y += item[1]
-            avgX, avgY = (x/len(groups[index]), y/len(groups[index]))
-            #x, y = (sum(groups[index][0])/len(groups[index]), sum(groups[index][1])/len(groups[index]))
-            #length = len(groups[index])
-            #sums = sum(groups[index][0])
-        except IndexError as e:
-            print(str(e))
-            traceback.print_exc()
+        x = 0
+        y = 0
+        for item in groups[index]:
+            x += item[0]
+            y += item[1]
+        avgX, avgY = (x/len(groups[index]), y/len(groups[index]))
         centers[index] = (avgX, avgY) # add the centers to calculate distances
 
     for orig_group in range(4):
@@ -149,7 +142,7 @@ while kmean:
     after_len2 = len(groups[2])
     after_len3 = len(groups[3])
 
-    # if num_moved == 0: # originally used this metric 
+    # if num_moved == 0: # originally used this metric
     if (after_len1 == orig_len1) and (after_len0 == orig_len0) and \
             (after_len2 == orig_len2 ) and (after_len3 == orig_len3):
         # nothing moved, done with means!
@@ -160,12 +153,17 @@ while kmean:
 
 
 
-print(f"Number of centers: {len(centers)} \n"
-      f"number of items in group1: {len(groups[0])}\n"
-      f"number of items in group2: {len(groups[1])}\n"
-      f"number of items in group3: {len(groups[2])}\n"
-      f"number of items in group4: {len(groups[3])}"
-      f"number of kmeans: {num_kmeans}")
+print(f"The number of kmeans: {num_kmeans}\n"
+      f"Centroid 0: {centers[0]}\n"
+      f"number of items in Cluster 0: {len(groups[0])}\n"
+      f"Cluster 0: {groups[0]}\n"
+      f"number of items in Cluster 1: {len(groups[1])}\n"
+      f"Cluster 1: {groups[1]}\n"
+      f"number of items in Cluster 2: {len(groups[2])}\n"
+      f"Cluster 2: {groups[2]}\n"
+      f"number of items in Cluster 3: {len(groups[3])}\n"
+      f"Cluster 3: {groups[3]}"
+      )
 
 
 

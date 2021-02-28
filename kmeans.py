@@ -2,24 +2,8 @@
 Module 5, Intro to Python
 K-means Clustering assignment
 statistical method for coronavirus and likelihood of being infected via an infected person
-
-k: the number of clusters we'd like to form & understand common attributes between them
-
-choosing 2 initial centroids: the center node for the first iteration of a cluster (the red and blue xs in figure (b))
-how do we choose the centroids? in the assignment, they're given
-
-compute the points from the centroid to the cluster via each individual point and see which centroid it's closer to
-classify based on proximity to the centroid it's closer to (this is the initial classification, figure (c))
-
-then recompute the centroid (figure (d)) by taking the average position of the classified cluster
-repeat the classification based on proximity to the new centroid
-
-continue this process until no points change clusters (so no new mean is calculated).
-This is the convergence/stable state -- end result (figure (f))
+Casey Richards
 """
-#import traceback
-import pdb
-
 with open("/Users/CaseyJayne/miniconda3/envs/introPython/kmeans.txt") as file:
     max_iter = int(file.readline().strip())
     num_points = int(file.readline().strip())
@@ -53,7 +37,6 @@ with open("/Users/CaseyJayne/miniconda3/envs/introPython/kmeans.txt") as file:
             all_points.append((x, y))
         elif len(all_points) == centers[center_ind]:
             # this is the center point!
-            # print("We are on line " + str(len(all_points)) + " which is a center: " + str(center_ind))
             centers[center_ind] = (x, y)
             center_ind += 1
         else:
@@ -95,10 +78,10 @@ num_moved = 0
 kmean = True
 while kmean:
     num_kmeans += 1
-    orig_len0 = len(groups[0])
-    orig_len1 = len(groups[1])
-    orig_len2 = len(groups[2])
-    orig_len3 = len(groups[3])
+    # orig_len0 = len(groups[0])
+    # orig_len1 = len(groups[1])
+    # orig_len2 = len(groups[2])
+    # orig_len3 = len(groups[3])
     for index in range(4):
         x = 0
         y = 0
@@ -137,14 +120,15 @@ while kmean:
                 num_moved += 1
                 groups[group_num].append(points) # add to new group
                 groups[orig_group].remove(points) # take off original list
-    after_len0 = len(groups[0])
-    after_len1 = len(groups[1])
-    after_len2 = len(groups[2])
-    after_len3 = len(groups[3])
+    # after_len0 = len(groups[0])
+    # after_len1 = len(groups[1])
+    # after_len2 = len(groups[2])
+    # after_len3 = len(groups[3])
 
-    # if num_moved == 0: # originally used this metric
-    if (after_len1 == orig_len1) and (after_len0 == orig_len0) and \
-            (after_len2 == orig_len2 ) and (after_len3 == orig_len3):
+    # used below with measuring with length rather than number moved
+    # if (after_len1 == orig_len1) and (after_len0 == orig_len0) and \
+    #        (after_len2 == orig_len2 ) and (after_len3 == orig_len3):
+    if num_moved == 0 or max_iter <= num_kmeans:  # originally used this metric
         # nothing moved, done with means!
         kmean = False
     else:
@@ -164,9 +148,3 @@ print(f"The number of kmeans: {num_kmeans}\n"
       f"number of items in Cluster 3: {len(groups[3])}\n"
       f"Cluster 3: {groups[3]}"
       )
-
-
-
-
-
-

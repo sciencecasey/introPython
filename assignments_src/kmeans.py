@@ -4,7 +4,7 @@ K-means Clustering assignment
 statistical method for coronavirus and likelihood of being infected via an infected person
 Casey Richards
 """
-with open("/Users/CaseyJayne/miniconda3/envs/introPython/kmeans.txt") as file:
+with open("/ssl/assignmnets/kmeans.txt") as file:
     max_iter = int(file.readline().strip())
     num_points = int(file.readline().strip())
     num_clusters = int(file.readline().strip())
@@ -134,7 +134,6 @@ while kmean:
     else:
         # reset the move number
         num_moved = 0
-
 
 
 print(f"The number of kmeans: {num_kmeans}\n"

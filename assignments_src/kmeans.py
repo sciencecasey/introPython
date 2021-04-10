@@ -4,7 +4,7 @@ K-means Clustering assignment
 statistical method for coronavirus and likelihood of being infected via an infected person
 Casey Richards
 """
-with open("/ssl/assignmnets/kmeans.txt") as file:
+with open("kmeans.txt") as file:
     max_iter = int(file.readline().strip())
     num_points = int(file.readline().strip())
     num_clusters = int(file.readline().strip())

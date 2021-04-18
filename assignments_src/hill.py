@@ -15,12 +15,11 @@ class HillCyper:
             if not isinstance(mat, list):
                 print("Matrix must be a numpy array or list")
                 return
-            else:
-                try:
-                    mat = np.array(mat)  # convert to numpy array
-                except TypeError:
-                    print("Input must be integer or float")
-                    return
+            try:
+                mat = np.array(mat)  # convert to numpy array
+            except TypeError:
+                print("Input must be integer or float")
+                return
         if not isinstance(modulus, int):
             print("Modulus must be an integer")
             return
@@ -45,8 +44,7 @@ class HillCyper:
             c, d = mat[1, :]
             det = a * d - b * c
             return det
-        else:
-            return mat.linalg.det()
+        return mat.linalg.det()
 
     def invertible(self):
         """
@@ -61,12 +59,12 @@ class HillCyper:
         if det == 0:
             print("Zero determinant, not invertible")
             return False
-        else:
-            return True
+        return True
 
     def mod_inverse_scalar(self, scalar):
         """
-        used: https://math.stackexchange.com/questions/3448234/calculating-modular-multiplicative-inverse-for-negative-values-of-a
+        used: https://math.stackexchange.com/questions/3448234/
+        calculating-modular-multiplicative-inverse-for-negative-values-of-a
         as a math reference to write
         """
         # scalar_inv = (self.__modulo + 1) / scalar
@@ -97,6 +95,7 @@ class HillCyper:
                 raise SizeError
         except SizeError:
             print("Not invertible matrix!")
+            return
 
     def convert_numeric(self):
         # create the map
@@ -110,7 +109,7 @@ class HillCyper:
         converted = np.array(converted)
         # separate into 2 rows
         converted = converted.reshape(int(converted.size / 2), 2)
-        #print("Numeric Array:\n" + str(converted.T))
+        # print("Numeric Array:\n" + str(converted.T))
         return converted.T
 
     def convert_string(self, num_mat):
@@ -135,7 +134,6 @@ class HillCyper:
     def decrypt(self):
         dec_num = self.convert_numeric()
         # print(f"Decrypted Matrix:\n {dec_num}")  # should match the encrypted matrix
-        key = self.__key_matrix
         key_inv = self.__key_inv
         dec_num = np.dot(key_inv, dec_num) % self.__modulo
         print(f"Decrypted Matrix:\n {dec_num}")
@@ -145,27 +143,25 @@ class HillCyper:
 
 
 if __name__ == "__main__":
-    text = "attackatdawn"
+    TEXT = "attackatdawn"
     try:
         K = [[19, 8, 4],
              [3, 12, 7]]
-        encrypted = HillCyper(text=text, mat=K, modulus=26)
+        encrypted = HillCyper(text=TEXT, mat=K, modulus=26)
         decrypted = HillCyper(text=encrypted.encrypted_text, mat=K, modulus=26, encrypt=False)
     except AttributeError:
         print("Continuing to next attempt")
     try:
         K = [[7, 8],
              [11, 11]]
-        encrypted = HillCyper(text=text, mat=K, modulus=26)
-        #print(HillCyper(text=text, mat=K, modulus=26))
+        encrypted = HillCyper(text=TEXT, mat=K, modulus=26)
         decrypted = HillCyper(text=encrypted.encrypted_text, mat=K, modulus=26, encrypt=False)
-        #print(HillCyper(text=encrypted.encrypted_text, mat=K, modulus=26, encrypt=False))
     except AttributeError:
         print("Continuing to next attempt")
     try:
         K = [[5, 15],
              [4, 12]]
-        encrypted = HillCyper(text=text, mat=K, modulus=26)
+        encrypted = HillCyper(text=TEXT, mat=K, modulus=26)
         decrypted = HillCyper(text=encrypted.encrypted_text, mat=K, modulus=26, encrypt=False)
     except AttributeError:
         print("Finished")

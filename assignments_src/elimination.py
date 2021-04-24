@@ -19,14 +19,6 @@ import pandas as pd
 import networkx as nx
 from itertools import combinations
 
-# use digraph class in networkx
-iterations = 0  # first line in input
-graphmat = pd.DataFrame()
-names = graphmat.index  # row labels
-graphmat.columns[3:] = ["wins", "losses", "remaining", names]
-eliminated = dict(zip(names, False))
-num_groups = graphmat.shape[0]
-
 
 def main():
     filepaths = ["ivy_league.txt", "mlb.txt", "potter.txt", "world_cup.txt"]
@@ -37,16 +29,26 @@ def main():
         f = list(np.repeat(False, len(table.index)))
         eliminated = dict(zip(list(table.index), f))
         # trivial eliminations
+        trivial_elim(table, eliminated)
         # make graphs
-        for org, val in eliminated.keys():
+        for org,val in eliminated.items():
             if not val:
                 # not eliminated make graph
                 g = make_graph(table, org)
-                result = nx.maxflow(g, "s", "t")
+                result = nx.maximum_flow(g, "s", "t")
                 # if games left originally != games left after maxflow
-                if g.degree(weight='weight')['s'] != result[0]
-                # set the org to eliminated
-        print_out(eliminated)
+                e = g.edges.data()
+                s_before = [] # save the input weights
+                for _,__,capacity in e:
+                    if _ == 's':
+                        s_before.append(capacity['capacity'])
+                if sum(s_before) != result[0]:
+                    # set the org to eliminated
+                    eliminated[org] = True
+                    print(f'{org} was eliminated by max flow')
+                else:
+                    print(f'{org} is still in the competition: not eliminated')
+
 
 def print_out(elim: dict):
     pass
@@ -59,9 +61,13 @@ def trivial_elim(table: pd.DataFrame, elim: dict):
     adjusts the elimination dictionary to
     """
     for org in range(0, len(table.index)):
-        if table[org, "wins"] + table[org, "remaining"] < any(table[:, "wins"]):
+        y = table["wins"][org] + table["remaining"][org] < (table["wins"])
+        if any(y):
             elim[table.index[org]] = True  # eliminate the organization
-        return elim
+            by = list(table.index[y])
+            print(f'{table.index[org]} was trivially eliminated by ', end="")
+            print(*by, sep=", ")
+    return elim
 
 
 def read_input(inpath: str):
@@ -78,7 +84,6 @@ def read_input(inpath: str):
         listed = line.split(" ")
         while "" in listed:
             listed.remove("")
-        print(listed)
         table.append(listed)
     file.close()
     return table
@@ -108,7 +113,7 @@ def make_graph(table: pd.DataFrame, org: str):
     interest = list(table.index)
     interest.remove(org)
     # make one graph per organization
-    print("Making graph for: " + org)
+    # print("Making graph for: " + org)
     g = nx.DiGraph()
     g.add_nodes_from(interest)
     # add all 2-way game combinations
@@ -131,3 +136,7 @@ def make_graph(table: pd.DataFrame, org: str):
                 g.add_edge(org2, "t", capacity=(table["wins"][org] + table["remaining"][org] - table["wins"][org2]))
 
     return g
+
+
+if __name__ == '__main__':
+    main()

@@ -70,7 +70,7 @@ class HillCyper:
         # scalar_inv = (self.__modulo + 1) / scalar
         if scalar != abs(scalar):
             scalar_inv = 1
-            while (scalar_inv + self.__modulo*scalar_inv) * scalar % self.__modulo != 1:
+            while (scalar_inv + self.__modulo* scalar_inv) * scalar % self.__modulo != 1:
                 scalar_inv += 1
         else:
             scalar_inv = 1

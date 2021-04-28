@@ -1,0 +1,6 @@
+Casey Richards, cricha87
+NetworkX, MaxFlow, DataScience 2 Intro Python Assingment
+
+The program runs with a main() function and when called directly a list of filenames is automatically passed into it.  The program loops through the list of files, reading them in one at a time as a list. The lists are then then converted to pandas data frames. After checking for trivial elimination and printing any teams that are trivially eliminated, a graph is made for each of the remaining organizations, one at a time.  These graphs are made exactly as described in teh assingment instructions using functions from networkX for a digraph (as they go one direction).  The graphs are then passed to the newtworkX maximum flow algorithm for processing.  The original edge data weights are saved temporarily in a list for summing.  If the sum of the original weights is different than the result of the maximum flow, the organization is printed as eliminated.  Otherwise, an output of "still in the competition" is printed to the console.
+
+There are no known bugs in the program

@@ -20,8 +20,7 @@ import networkx as nx
 from itertools import combinations
 
 
-def main():
-    filepaths = ["ivy_league.txt", "mlb.txt", "potter.txt", "world_cup.txt"]
+def main(filepaths):
     for path in filepaths:
         basic_list = read_input(path)
         table = convert_table(basic_list)
@@ -50,9 +49,8 @@ def main():
                     print(f'{org} is still in the competition: not eliminated')
 
 
-def print_out(elim: dict):
+def print_output():
     pass
-    # print each team and if eliminated or not
 
 
 # trivial elimination
@@ -139,4 +137,5 @@ def make_graph(table: pd.DataFrame, org: str):
 
 
 if __name__ == '__main__':
-    main()
+    filepaths = ["ivy_league.txt", "mlb.txt", "potter.txt", "world_cup.txt"]
+    main(filepaths)
